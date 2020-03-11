@@ -20,15 +20,27 @@
 async function searchShows(query) {
   // TODO: Make an ajax request to the searchShows api.  Remove
   // hard coded data.
+  let listOfShows = [];
+  let $searchResponse = await axios.get(`http://api.tvmaze.com/search/shows?q=${query}`)
 
-  return [
-    {
-      id: 1767,
-      name: "The Bletchley Circle",
-      summary: "<p><b>The Bletchley Circle</b> follows the journey of four ordinary women with extraordinary skills that helped to end World War II.</p><p>Set in 1952, Susan, Millie, Lucy and Jean have returned to their normal lives, modestly setting aside the part they played in producing crucial intelligence, which helped the Allies to victory and shortened the war. When Susan discovers a hidden code behind an unsolved murder she is met by skepticism from the police. She quickly realises she can only begin to crack the murders and bring the culprit to justice with her former friends.</p>",
-      image: "http://static.tvmaze.com/uploads/images/medium_portrait/147/369403.jpg"
-    }
-  ]
+  for (let show=0; show < $searchResponse.data.length; show++) {
+    listOfShows[show] = {name:"", id:"", image: "", summary:""};
+    listOfShows[show].name = $searchResponse.data[show].show.name ;
+    listOfShows[show].id = $searchResponse.data[show].show.id ;
+    listOfShows[show].image = $searchResponse.data[show].show.image ;
+    listOfShows[show].summary = $searchResponse.data[show].show.summary ;
+  }
+  return listOfShows;
+
+
+  // return [
+  //   {
+  //     id: 1767,
+  //     name: "The Bletchley Circle",
+  //     summary: "<p><b>The Bletchley Circle</b> follows the journey of four ordinary women with extraordinary skills that helped to end World War II.</p><p>Set in 1952, Susan, Millie, Lucy and Jean have returned to their normal lives, modestly setting aside the part they played in producing crucial intelligence, which helped the Allies to victory and shortened the war. When Susan discovers a hidden code behind an unsolved murder she is met by skepticism from the police. She quickly realises she can only begin to crack the murders and bring the culprit to justice with her former friends.</p>",
+  //     image: "http://static.tvmaze.com/uploads/images/medium_portrait/147/369403.jpg"
+  //   }
+  // ]
 }
 
 
