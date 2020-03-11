@@ -54,16 +54,37 @@ function populateShows(shows) {
   $showsList.empty();
 
   for (let show of shows) {
-    let $item = $(
+
+    if(show.image === null){
+      console.log(`${show.image.medium}`);
+      let $item = $(
+        `<div class="col-md-6 col-lg-3 Show" data-show-id="${show.id}">
+          <div class="card" data-show-id="${show.id}">
+            <div class="card-body">
+              <h5 class="card-title">${show.name}</h5>
+              <p class="card-text">${show.summary}</p>
+            </div>
+          </div>
+        </div>
+        `);
+    }
+    else{
+      console.log(`${show.image.medium}`);
+      let $item = $(
       `<div class="col-md-6 col-lg-3 Show" data-show-id="${show.id}">
-         <div class="card" data-show-id="${show.id}">
-           <div class="card-body">
-             <h5 class="card-title">${show.name}</h5>
-             <p class="card-text">${show.summary}</p>
-           </div>
-         </div>
-       </div>
-      `);
+      <div class="card" data-show-id="${show.id}">
+        <div class="card-body">
+          <h5 class="card-title">${show.name}</h5> 
+          
+          <p class="card-text">${show.summary}</p>
+        </div>
+      </div>
+    </div>
+    `);
+
+    }
+    //<img class = "card-image" src="${show.image.medium}"></img>
+
 
     $showsList.append($item);
   }
