@@ -55,37 +55,23 @@ function populateShows(shows) {
 
   for (let show of shows) {
 
-    if(show.image === null){
-      console.log(`${show.image.medium}`);
-      let $item = $(
-        `<div class="col-md-6 col-lg-3 Show" data-show-id="${show.id}">
-          <div class="card" data-show-id="${show.id}">
-            <div class="card-body">
-              <h5 class="card-title">${show.name}</h5>
-              <p class="card-text">${show.summary}</p>
-            </div>
-          </div>
-        </div>
-        `);
-    }
-    else{
+      if(!show.image){
+        show.image= {medium:"https://tinyurl.com/tv-missing"};
+      }
+      
       console.log(`${show.image.medium}`);
       let $item = $(
       `<div class="col-md-6 col-lg-3 Show" data-show-id="${show.id}">
       <div class="card" data-show-id="${show.id}">
         <div class="card-body">
           <h5 class="card-title">${show.name}</h5> 
+          <img class = "card-image" src="${show.image.medium}"></img>
           
           <p class="card-text">${show.summary}</p>
         </div>
       </div>
     </div>
     `);
-
-    }
-    //<img class = "card-image" src="${show.image.medium}"></img>
-
-
     $showsList.append($item);
   }
 }
@@ -118,6 +104,24 @@ async function getEpisodes(id) {
   // TODO: get episodes from tvmaze
   //       you can get this by making GET request to
   //       http://api.tvmaze.com/shows/SHOW-ID-HERE/episodes
+  let $episodesResponse =await axios.get(`http://api.tvmaze.com/shows/${id}/episodes`);
+  let episodesData=[];
+  for (let episode=0; episode<$episodesResponse.data.length; episode++){
+    episodesData[episode]={id:"", name:"", season:"", number:""};
+    episodesData[episode].id=$episodesResponse.data[episode].id
+    episodesData[episode].name=$episodesResponse.data[episode].name
+    episodesData[episode].season=$episodesResponse.data[episode].season
+    episodesData[episode].number=$episodesResponse.data[episode].number
+  }
+  console.log(episodesData);
+  return episodesData;
 
   // TODO: return array-of-episode-info, as described in docstring above
+}   
+
+function populateEpisodes(episodesData){
+  for(i=0; i<episodesData.length;i++){
+    let episodeListItem= `title: ${episodeData[i].name}, season: ${episodeData[i].season}, episode: ${episodeData[i].number}`
+    $('ul').append(`<li> ${episodeListItem}</li>`)
+  }
 }
